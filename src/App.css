@@ -1,0 +1,45 @@
+/* 1. Reset everything to prevent hidden padding issues */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 2. Fix the scrollbars at the root level */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden; /* Stops horizontal shaking */
+  background-color: #1c1f2a; /* Matches your hero color */
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-y: auto; /* Only allow the body to scroll */
+}
+
+/* 3. Remove Vite's default 1280px constraint */
+#root {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 4. Utility for your images/logos if needed */
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+@keyframes logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
