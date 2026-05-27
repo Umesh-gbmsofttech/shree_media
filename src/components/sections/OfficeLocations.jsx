@@ -4,10 +4,10 @@ import { Phone, MapPin, ExternalLink } from 'lucide-react';
 import {
   CONTACT_PHONE,
   CONTACT_PHONE_HREF,
+  CONTACT_ADDRESS,
+  GOOGLE_MAPS_URL,
   EXTERNAL_PHONE_LINK_PROPS,
 } from '../../data/contact';
-
-const GOOGLE_MAPS_URL = 'https://share.google/RKny5NxiMcvYVkEFo';
 
 export default function OfficeLocations() {
   return (
@@ -70,13 +70,10 @@ export default function OfficeLocations() {
               <div className="p-10 md:p-12">
                 <div className="flex justify-between items-start mb-6">
                   <div>
-                    <h4 className="text-3xl font-bold text-slate-900 mb-2">Pune</h4>
+                    <h4 className="text-3xl font-bold text-slate-900 mb-2">Pimpri Chinchwad</h4>
                     <div className="flex items-start gap-2 text-slate-500">
                       <MapPin size={16} className="mt-1 flex-shrink-0 text-blue-600" />
-                      <p className="leading-relaxed">
-                        167 Hawthorne, Business Central,<br />
-                        Manhattan, Pune, 11722
-                      </p>
+                      <p className="leading-relaxed">{ CONTACT_ADDRESS }</p>
                     </div>
                   </div>
                 </div>

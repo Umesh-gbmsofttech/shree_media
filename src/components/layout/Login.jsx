@@ -1,10 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { User, Lock, Chrome, Facebook, Github, Linkedin } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
 
 export default function Login() {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const fadeInUp = {
     hidden: { opacity: 0, y: 10 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.4 } }
@@ -52,7 +54,15 @@ export default function Login() {
               Login
             </motion.h2>
 
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <form
+              className="space-y-4"
+              onSubmit={(e) => {
+                e.preventDefault();
+                localStorage.setItem('isLoggedIn', 'true');
+                const redirect = searchParams.get('redirect') || '/';
+                navigate(redirect);
+              }}
+            >
               <motion.div variants={fadeInUp} initial="hidden" animate="visible" className="relative group">
                 <input 
                   type="text" 

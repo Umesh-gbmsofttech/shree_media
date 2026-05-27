@@ -61,7 +61,7 @@ export const CartProvider = ({ children }) => {
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const totalPrice = cart.reduce((sum, item) => {
-    const price = Number(String(item.price).replace(/[₹,]/g, ""));
+    const price = Number(String(item.price).replace(/[^\d.]/g, ""));
     return sum + price * item.quantity;
   }, 0);
 

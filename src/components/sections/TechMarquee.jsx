@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 export default function TechMarquee() {
-  const items = ["Digital Printing", "Offset Printing", "3D Printing", "Flyers", "Branding"];
+  const items = ["Industrial Printing", "Packaging Printing", "Gift Printing", "Outdoor Printing", "Indoor Printing", "Sticker & Label Printing"];
   
   return (
     <div className="bg-[#1a1a1a] py-16 overflow-hidden">

@@ -16,12 +16,12 @@ import businesscard from '../../assets/businesscard.jpg';
 
 // --- DATA CONFIGURATION ---
 const categories = [
-  { title: "Standy", img: standy },
-  { title: "Letterhead", img: letterhead },
-  { title: "Flyer", img: flyer },
-  { title: "Banner", img: banner },
-  { title: "ID Card", img: idCard },
-  { title: "Stamps", img: stamps },
+  { title: "Industrial Printing", img: standy },
+  { title: "Packaging Printing", img: letterhead },
+  { title: "Gift Printing", img: flyer },
+  { title: "Outdoor Printing", img: banner },
+  { title: "Indoor Printing", img: idCard },
+  { title: "Sticker / Label", img: stamps },
 ];
 
 const topSellers = [
@@ -44,6 +44,11 @@ export default function PrintingMarketplace() {
       const scrollTo = direction === 'left' ? scrollLeft - 450 : scrollLeft + 450;
       scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
     }
+  };
+
+  const handleCategoryClick = (title) => {
+    const normalized = title === 'Sticker / Label' ? 'Packaging Printing' : title;
+    navigate(`/services?category=${encodeURIComponent(normalized)}`);
   };
 
   return (
@@ -74,6 +79,7 @@ export default function PrintingMarketplace() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.1 }}
                 whileHover={{ y: -8 }}
+                onClick={() => handleCategoryClick(cat.title)}
                 className="flex flex-col items-center gap-4 cursor-pointer group"
               >
                 <div className="relative w-24 h-24 md:w-28 md:h-28">
@@ -98,7 +104,7 @@ export default function PrintingMarketplace() {
               <span className="text-xs font-black uppercase tracking-[0.2em]">Our Store</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
-              Top Selling <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Prints.</span>
+              Top Printing <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Solutions.</span>
             </h2>
           </div>
 

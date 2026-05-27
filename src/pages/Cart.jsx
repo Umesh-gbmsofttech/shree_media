@@ -1,6 +1,8 @@
-import { useCart } from "../context/CartContext";
+import { useNavigate } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
 
 export default function Cart() {
+  const navigate = useNavigate();
   const {
     cart,
     increaseQty,
@@ -8,6 +10,15 @@ export default function Cart() {
     removeFromCart,
     totalPrice,
   } = useCart();
+
+  const placeOrder = () => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (!isLoggedIn) {
+      navigate('/login?redirect=/contact');
+      return;
+    }
+    navigate('/contact');
+  };
 
   return (
     <div className="p-10">
@@ -36,7 +47,13 @@ export default function Cart() {
             </div>
           ))}
 
-          <h2>Total: ₹{totalPrice}</h2>
+          <h2>Total: INR {totalPrice.toFixed(2)}</h2>
+          <button
+            onClick={placeOrder}
+            className="mt-4 px-5 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors"
+          >
+            Place Order
+          </button>
         </>
       )}
     </div>

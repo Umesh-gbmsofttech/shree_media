@@ -3,53 +3,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, X, Info, ShoppingCart, Plus, CheckCircle2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-// --- DIRECT ASSET IMPORTS ---
-import imgWedding from '../../assets/weeding.jpg';
-import imgBirthday from '../../assets/birthday.jpg';
-import imgLetterhead from '../../assets/letterhead.jpg';
-import imgStamp from '../../assets/stamp.webp';
-import imgPostcard from '../../assets/postcard.jpg';
-import imgBusinessCard from '../../assets/businesscard.jpg';
-import imgFlyer from '../../assets/flyer.webp';
-import imgBrochure from '../../assets/promotional.jpg';
-import imgCert from '../../assets/certificate.jpg';
-import imgIdCard from '../../assets/idcard.webp';
-import imgBanner from '../../assets/banner1.jpg';
-import imgStandy from '../../assets/standy.avif';
-import imgStickers from '../../assets/sticker.jpg';
-import imgMenu from '../../assets/menu.avif';
+import { products as projects, filters } from '../../data/products';
+import { useCart } from '../../context/CartContext';
 
-const projects = [
-  { id: 1, title: "Royal Wedding Cards", tag: "Premium", category: "Cards", price: "₹2,500.00", qty: "50", img: imgWedding, description: "Exquisite premium wedding cards with gold foiling and textured paper options. Fully customizable designs to match your special day." },
-  { id: 2, title: "Birthday Invitation Set", tag: "Popular", category: "Cards", price: "₹499.00", qty: "20", img: imgBirthday, description: "Fun and vibrant birthday invitations. High-quality digital print on 300gsm glossy cardstock." },
-  { id: 3, title: "Corporate Letterhead", tag: "Featured", category: "Office", price: "₹120.00", qty: "10", img: imgLetterhead, description: "Professional 100gsm bond paper letterheads. Essential for official business correspondence and branding." },
-  { id: 4, title: "Self-Inking Rubber Stamp", tag: "Essential", category: "Office", price: "₹150.00", qty: "1", img: imgStamp, description: "Durable self-inking stamps available in blue, black, or red ink. High-precision laser-cut rubber for crisp impressions." },
-  { id: 5, title: "Vintage Postcards", tag: "Classic", category: "Cards", price: "₹199.00", qty: "10", img: imgPostcard, description: "Classic 4x6 inch postcards with a matte finish. Great for personal messages or artistic collectibles." },
-  { id: 6, title: "Executive Business Card", tag: "Featured", category: "Office", price: "₹350.00", qty: "100", img: imgBusinessCard, description: "Premium 350gsm matte laminated cards. Includes spot UV options for a luxurious executive feel." },
-  { id: 7, title: "Promotional Flyer", tag: "Bulk", category: "Marketing", price: "₹800.00", qty: "500", img: imgFlyer, description: "A5 sized marketing flyers on 130gsm art paper. Best for mass distribution and events." },
-  { id: 8, title: "Trifold Brochure", tag: "Marketing", category: "Marketing", price: "₹1,200.00", qty: "100", img: imgBrochure, description: "Professional trifold layout on high-gloss paper. Perfect for presenting detailed product catalogs." },
-  { id: 10, title: "Achievement Certificates", tag: "Popular", category: "Office", price: "₹299.00", qty: "5", img: imgCert, description: "Elegantly designed certificates on parchment paper. Ideal for corporate recognition or school awards." },
-  { id: 12, title: "PVC Employee ID Card", tag: "Essential", category: "Office", price: "₹60.00", qty: "1", img: imgIdCard, description: "Standard CR80 size PVC cards. Durable, waterproof, and high-definition photo printing." },
-  { id: 13, title: "Outdoor Vinyl Banner", tag: "Large Format", category: "Large Format", price: "₹450.00", qty: "1", img: imgBanner, description: "Weather-resistant flex banners with eyelets. Perfect for shop fronts and outdoor events." },
-  { id: 14, title: "Roll-up Standy (6x3)", tag: "Featured", category: "Large Format", price: "₹1,399.00", qty: "1", img: imgStandy, description: "Portable aluminum roll-up stand with high-quality star media print. Easy to carry and set up." },
-  { id: 16, title: "Round Product Stickers", tag: "Labels", category: "Packaging", price: "₹110.00", qty: "30", img: imgStickers, description: "Pre-cut waterproof vinyl stickers. Perfect for branding jars, boxes, or product packaging." },
-  { id: 19, title: "Restaurant Menu Cards", tag: "Hospitality", category: "Marketing", price: "₹850.00", qty: "10", img: imgMenu, description: "Long-lasting laminated menu cards. Spill-proof and easy to clean for heavy restaurant use." }
-];
-
-const filters = ['All', 'Cards', 'Marketing', 'Office', 'Large Format', 'Packaging'];
-
-export default function ProjectShowcase() {
+export default function ProjectShowcase({ activeFilter = 'All', onFilterChange }) {
   const navigate = useNavigate();
-  const [activeFilter, setActiveFilter] = useState('All');
   const [selectedProduct, setSelectedProduct] = useState(null);
-  
-  // --- CART STATE & LOGIC ---
-  const [cart, setCart] = useState([]);
+  const { addToCart, totalItems } = useCart();
   const [isAdding, setIsAdding] = useState(false);
 
-  const addToCart = (product) => {
+  const handleAddToCart = (product) => {
     setIsAdding(true);
-    setCart([...cart, product]);
+    addToCart(product);
     
     // Simple feedback timeout
     setTimeout(() => {
@@ -61,12 +26,21 @@ export default function ProjectShowcase() {
     ? projects 
     : projects.filter(item => item.category === activeFilter);
 
+  const handleOrderNow = () => {
+    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    if (!isLoggedIn) {
+      navigate('/login?redirect=/contact');
+      return;
+    }
+    navigate('/contact');
+  };
+
   return (
     <section className="py-24 bg-[#F8F9FB] relative">
       
       {/* --- FLOATING CART BADGE --- */}
       <AnimatePresence>
-        {cart.length > 0 && (
+        {totalItems > 0 && (
           <motion.div 
             initial={{ scale: 0, y: 20 }}
             animate={{ scale: 1, y: 0 }}
@@ -77,7 +51,7 @@ export default function ProjectShowcase() {
             <div className="relative">
               <ShoppingCart size={20} />
               <span className="absolute -top-2 -right-2 bg-rose-500 text-[10px] w-5 h-5 rounded-full flex items-center justify-center font-bold border-2 border-indigo-600">
-                {cart.length}
+                {totalItems}
               </span>
             </div>
             <span className="text-[10px] font-black uppercase tracking-widest">View Cart</span>
@@ -102,7 +76,7 @@ export default function ProjectShowcase() {
             {filters.map((filter) => (
               <button 
                 key={filter} 
-                onClick={() => setActiveFilter(filter)}
+                onClick={() => (onFilterChange ? onFilterChange(filter) : null)}
                 className={`px-6 py-2.5 rounded-full border text-xs font-bold transition-all whitespace-nowrap shadow-sm
                   ${activeFilter === filter 
                     ? 'bg-indigo-600 border-indigo-600 text-white' 
@@ -238,7 +212,7 @@ export default function ProjectShowcase() {
                     {/* ADD TO CART OPTION */}
                     <motion.button 
                       whileTap={{ scale: 0.98 }}
-                      onClick={() => addToCart(selectedProduct)}
+                      onClick={() => handleAddToCart(selectedProduct)}
                       className={`w-full py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all flex items-center justify-center gap-2 border-2 ${
                         isAdding 
                         ? 'bg-emerald-50 border-emerald-500 text-emerald-600' 
@@ -255,7 +229,7 @@ export default function ProjectShowcase() {
                     {/* ORDER NOW BUTTON */}
                     <motion.button 
                       whileTap={{ scale: 0.98 }}
-                      onClick={() => navigate('/contact')}
+                      onClick={handleOrderNow}
                       className="w-full py-4 bg-indigo-600 text-white rounded-2xl font-black text-[10px] uppercase tracking-widest hover:bg-indigo-700 transition-colors shadow-lg shadow-indigo-100 flex items-center justify-center gap-2"
                     >
                       Order Now <ShoppingCart size={16} />

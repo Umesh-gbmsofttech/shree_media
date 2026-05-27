@@ -1,28 +1,41 @@
-﻿import React from 'react';
+import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ServicesHero from '../components/sections/ServicesHero';
 import ServiceCategories from '../components/sections/ServiceCategories';
-import ProjectShowcase from '../components/sections/ProjectShowcase'; // NEW
-import StrategySection from '../components/sections/StrategySection'; // NEW
+import ProjectShowcase from '../components/sections/ProjectShowcase';
+import StrategySection from '../components/sections/StrategySection';
 import TechMarquee from '../components/sections/TechMarquee';
 import CTASection from '../components/sections/CTASection';
 
 export default function Services() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeFilter = searchParams.get('category') || 'All';
+
+  const handleFilterChange = (filterValue) => {
+    const next = new URLSearchParams(searchParams);
+    if (filterValue === 'All') {
+      next.delete('category');
+    } else {
+      next.set('category', filterValue);
+    }
+    setSearchParams(next);
+  };
+
   return (
-    <main className="bg-white overflow-x-hidden"> 
+    <main className="bg-white overflow-x-hidden">
       <div className="relative">
         <ServicesHero />
-        {/* Absolute positioning to pull categories onto the blue wave */}
-        
+        <ServiceCategories activeFilter={activeFilter} onFilterChange={handleFilterChange} />
       </div>
 
-      <ProjectShowcase />
+      <ProjectShowcase activeFilter={activeFilter} onFilterChange={handleFilterChange} />
       <StrategySection />
-      
+
       <div className="bg-[#1a1a1a] py-4">
         <TechMarquee />
       </div>
 
-      <CTASection />   
+      <CTASection />
     </main>
   );
 }

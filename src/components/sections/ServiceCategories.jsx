@@ -9,27 +9,26 @@ import idCard from '../../assets/idcard.webp';
 import stamps from '../../assets/stamp.webp';
 import certificate from '../../assets/certificate.jpg';
 import businesscard from '../../assets/businesscard.jpg';
-
 const categories = [
-  { id: 1, name: 'Standy', image: standy },
-  { id: 2, name: 'Letterhead', image: letterhead },
-  { id: 3, name: 'Flyer', image: flyer },
-  { id: 4, name: 'Banner', image: banner },
-  { id: 5, name: 'ID Card', image: idCard },
-  { id: 6, name: 'Stamps', image: stamps },
-  { id: 7, name: 'Certificate', image: certificate },
-  { id: 8, name: 'Business Card', image: businesscard },
+  { id: 1, name: 'Industrial Printing', image: standy, filter: 'Industrial Printing' },
+  { id: 2, name: 'Packaging Printing', image: letterhead, filter: 'Packaging Printing' },
+  { id: 3, name: 'Gift Printing', image: flyer, filter: 'Gift Printing' },
+  { id: 4, name: 'Outdoor Printing', image: banner, filter: 'Outdoor Printing' },
+  { id: 5, name: 'Indoor Printing', image: idCard, filter: 'Indoor Printing' },
+  { id: 6, name: 'Sticker / Label', image: stamps, filter: 'Packaging Printing' },
+  { id: 7, name: 'Pouch Printing', image: certificate, filter: 'Packaging Printing' },
+  { id: 8, name: 'Business Stationery', image: businesscard, filter: 'Industrial Printing' },
 ];
 
-const ServiceCategories = () => {
+const ServiceCategories = ({ activeFilter, onFilterChange }) => {
   return (
     <section className="py-20 bg-white">
       <div className="container mx-auto px-6">
-        {/* Responsive Grid: Adjusts from 2 to 4 columns depending on screen size */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8 gap-8 justify-items-center">
+        <div className="flex flex-wrap items-start justify-center gap-x-10 gap-y-10 max-w-6xl mx-auto">
           {categories.map((cat) => (
             <div 
               key={cat.id} 
+              onClick={() => (onFilterChange ? onFilterChange(cat.filter) : null)}
               className="group flex flex-col items-center cursor-pointer"
             >
               {/* Circular Image Container */}
@@ -45,7 +44,7 @@ const ServiceCategories = () => {
               </div>
 
               {/* Category Name */}
-              <span className="mt-4 text-[13px] font-bold text-[#2d3a54] tracking-tight group-hover:text-blue-600 transition-colors">
+              <span className={`mt-4 text-[13px] font-bold tracking-tight transition-colors text-center ${activeFilter === cat.filter ? 'text-blue-600' : 'text-[#2d3a54] group-hover:text-blue-600'}`}>
                 {cat.name}
               </span>
             </div>

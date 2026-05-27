@@ -5,13 +5,12 @@ import {
   CONTACT_EMAIL_HREF,
   CONTACT_PHONE,
   CONTACT_PHONE_HREF,
+  GOOGLE_MAPS_URL,
   EXTERNAL_PHONE_LINK_PROPS,
 } from '../../data/contact';
 
 const SCRIPT_URL =
   '';
-const GOOGLE_MAPS_URL = '';
-
 export default function ContactFormSection() {
   const [ formData, setFormData ] = useState({ name: '', email: '', message: '' });
   const [ loading, setLoading ] = useState(false);

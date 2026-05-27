@@ -75,36 +75,36 @@ export default function Hero() {
               <div className="flex items-center gap-4 mb-8">
                 <span className="h-[1px] w-16 bg-indigo-600"></span>
                 <span className="text-[10px] font-bold uppercase tracking-[0.5em] text-indigo-600/70">
-                  Creative Media Studio
+                  Shree Media Solutions
                 </span>
               </div>
 
               {/* Headline */}
               <h1 className="text-[3.5rem] sm:text-[4.5rem] md:text-[5.5rem] lg:text-[6.5rem] leading-[0.9] tracking-[-0.02em] text-slate-900">
                 <span className="block font-light">
-                  Where <span className="font-semibold">Precision</span>
+                  Where <span className="font-semibold">Print</span>
                 </span>
 
                 <span className="block mt-2 font-light">
                   Meets{" "}
                   <span className="italic font-medium text-indigo-600">
-                    Expression.
+                    Impact.
                   </span>
                 </span>
               </h1>
 
               {/* Subtext */}
               <p className="mt-10 max-w-xl text-slate-500 text-[17px] md:text-lg leading-relaxed border-l-[3px] border-indigo-200 pl-6">
-                We design tactile brand experiences where{" "}
+                We deliver complete printing solutions for businesses where{" "}
                 <span className="text-slate-800 font-medium">
-                  visual elegance
+                  quality output
                 </span>{" "}
                 meets{" "}
                 <span className="text-slate-800 font-medium">
-                  engineered precision
+                  fast turnaround
                 </span>.
                 <br className="hidden md:block" />
-                Crafted for brands that demand distinction.
+                Built for brands that need reliable results.
               </p>
             </motion.div>
 
@@ -137,7 +137,7 @@ export default function Hero() {
               {[
                 { icon: <Zap size={18} />, title: "Swift Delivery" },
                 { icon: <Palette size={18} />, title: "Custom Finish" },
-                { icon: <Globe size={18} />, title: "Global Reach" },
+                { icon: <Globe size={18} />, title: "Bulk Capacity" },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <div className="text-indigo-600">{item.icon}</div>
