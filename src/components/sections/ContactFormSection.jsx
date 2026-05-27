@@ -1,215 +1,174 @@
-import React, { useState } from 'react';
-import { User, Mail, MessageSquare, Send, CheckCircle2, X } from 'lucide-react';
+// UPDATED ContactFormSection.jsx
+// Removed 3 info cards section completely
+// Better responsive spacing + alignment fixes
+
+import React from "react";
+import { motion } from "framer-motion";
 import {
-  CONTACT_EMAIL,
-  CONTACT_EMAIL_HREF,
-  CONTACT_PHONE,
-  CONTACT_PHONE_HREF,
-  GOOGLE_MAPS_URL,
-  EXTERNAL_PHONE_LINK_PROPS,
-} from '../../data/contact';
+  Clock3,
+  Send,
+  CheckCircle2,
+} from "lucide-react";
 
-const SCRIPT_URL =
-  '';
 export default function ContactFormSection() {
-  const [ formData, setFormData ] = useState({ name: '', email: '', message: '' });
-  const [ loading, setLoading ] = useState(false);
-  const [ showPopup, setShowPopup ] = useState(false);
-  const [ errorMessage, setErrorMessage ] = useState('');
+  return (<section className="py-20 md:py-28 bg-gradient-to-b from-white to-[#f5f9ff] overflow-hidden">
 
-  const updateField = (field) => (event) => {
-    setFormData((current) => ({
-      ...current,
-      [ field ]: event.target.value,
-    }));
-  };
+    ```
+    <div className="max-w-7xl mx-auto px-5 sm:px-6">
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setErrorMessage('');
+      <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-start">
 
-    const payload = {
-      name: formData.name.trim(),
-      email: formData.email.trim(),
-      message: formData.message.trim(),
-    };
+        {/* LEFT CONTENT */ }
+        <div>
 
-    if (!payload.name || !payload.email || !payload.message) {
-      setErrorMessage('Please fill out all fields before submitting.');
-      setLoading(false);
-      return;
-    }
+          <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-blue-100 text-[#3884f5] mb-6 md:mb-8">
+            <Clock3 size={ 16 } />
 
-    try {
-      await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
-        body: new URLSearchParams(payload).toString(),
-      });
-
-      setShowPopup(true);
-      setFormData({ name: '', email: '', message: '' });
-    } catch (err) {
-      console.error('Contact form submission failed:', err);
-      setErrorMessage('Something went wrong. Please try again.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <section className="py-24 bg-[#edeff5] relative">
-      <div className="container mx-auto px-6 max-w-7xl">
-        <div className="flex flex-col lg:flex-row gap-12 items-start">
-
-          {/* Left Info Box */ }
-          <div className="lg:w-[40%] w-full bg-white p-14 rounded-sm shadow-[0_0_50px_rgba(0,0,0,0.04)] border border-slate-50 relative overflow-hidden">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 mb-8">
-              <MessageSquare size={ 14 } className="text-blue-600" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-blue-600">Let's work </span>
-            </div>
-
-            <h3 className="text-4xl font-bold text-slate-900 mb-6 leading-tight">Ready to help you!</h3>
-            <p className="text-slate-500 mb-12 text-base leading-relaxed">
-              We're here to help and answer any question you might have.
-            </p>
-
-            <div className="grid grid-cols-2 gap-y-10 gap-x-4">
-              <div>
-                <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">Call us directly?</p>
-                <a
-                  href={ CONTACT_PHONE_HREF }
-                  { ...EXTERNAL_PHONE_LINK_PROPS }
-                  className="font-bold text-slate-900 hover:text-blue-600 transition-colors"
-                >
-                  { CONTACT_PHONE }
-                </a>
-              </div>
-              <div>
-                <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">Need live support?</p>
-                <a href={ CONTACT_EMAIL_HREF } className="font-bold text-slate-900 hover:text-blue-600 transition-colors">
-                  { CONTACT_EMAIL }
-                </a>
-              </div>
-              
-              <div>
-                <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-2">Visit headquarters?</p>
-                <a
-                  href={ GOOGLE_MAPS_URL }
-                  target="_blank"
-                  rel="noreferrer"
-                  className="font-bold text-slate-900 border-b border-slate-900 pb-0.5 hover:text-blue-600 hover:border-blue-600 transition-all"
-                >
-                  View on google map
-                </a>
-              </div>
-            </div>
+            <span className="text-xs sm:text-sm font-semibold">
+              Available for Projects
+            </span>
           </div>
 
-          {/* Right Form Section */ }
-          <div className="lg:w-[60%] w-full lg:pl-10">
-            <h2 className="text-5xl font-bold text-slate-900 mb-14 tracking-tight">Looking for any help?</h2>
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-slate-900 leading-[1] mb-6 md:mb-8">
+            Let’s create something unforgettable.
+          </h2>
 
-            <form className="space-y-10" onSubmit={ handleSubmit }>
-              <div className="relative group">
-                <label className="text-[11px] font-bold text-slate-900 uppercase tracking-[0.2em] block mb-2">Enter your name*</label>
-                <div className="relative">
-                  <input
-                    required
-                    type="text"
-                    value={ formData.name }
-                    onChange={ updateField('name') }
-                    placeholder="What's your good name?"
-                    className="w-full py-4 bg-transparent border-b border-slate-200 focus:border-slate-400 outline-none transition-all text-slate-600"
-                  />
-                  <User size={ 18 } className="absolute right-0 top-4 text-slate-400 group-focus-within:text-slate-900 transition-colors" />
+          <p className="text-slate-500 text-base sm:text-lg leading-relaxed mb-10 md:mb-12 max-w-xl">
+            We partner with ambitious brands and founders to create
+            digital experiences that stand out and drive results.
+          </p>
+
+          {/* Services */ }
+          <div className="space-y-5 md:space-y-6">
+
+            { [
+              "Brand Identity Design",
+              "Website Design & Development",
+              "UI/UX Design Systems",
+              "Creative Direction",
+            ].map((item, index) => (
+              <div
+                key={ index }
+                className="flex items-center gap-4"
+              >
+
+                <div className="min-w-[34px] h-[34px] rounded-full bg-[#3884f5]/10 text-[#3884f5] flex items-center justify-center">
+                  <CheckCircle2 size={ 16 } />
                 </div>
-              </div>
 
-              <div className="relative group">
-                <label className="text-[11px] font-bold text-slate-900 uppercase tracking-[0.2em] block mb-2">Email address*</label>
-                <div className="relative">
-                  <input
-                    required
-                    type="email"
-                    value={ formData.email }
-                    onChange={ updateField('email') }
-                    placeholder="Enter your email address"
-                    className="w-full py-4 bg-transparent border-b border-slate-200 focus:border-slate-900 outline-none transition-all text-slate-600"
-                  />
-                  <Mail size={ 18 } className="absolute right-0 top-4 text-slate-400 group-focus-within:text-slate-900 transition-colors" />
-                </div>
-              </div>
-
-              <div className="relative group">
-                <label className="text-[11px] font-bold text-slate-900 uppercase tracking-[0.2em] block mb-2">Your message</label>
-                <div className="relative">
-                  <textarea
-                    rows="3"
-                    value={ formData.message }
-                    onChange={ updateField('message') }
-                    placeholder="Describe about your project"
-                    className="w-full py-4 bg-transparent border-b border-slate-200 focus:border-slate-900 outline-none transition-all text-slate-600 resize-none"
-                  />
-                  <MessageSquare size={ 18 } className="absolute right-0 top-4 text-slate-400 group-focus-within:text-slate-900 transition-colors" />
-                </div>
-              </div>
-
-              { errorMessage ? (
-                <p className="text-sm text-red-600">{ errorMessage }</p>
-              ) : null }
-
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pt-4">
-                <p className="text-xs text-slate-400 max-w-[300px] leading-relaxed">
-                  We will never collect information about you without your explicit consent.
+                <p className="text-base sm:text-lg text-slate-700 font-medium">
+                  { item }
                 </p>
-                <button
-                  type="submit"
-                  disabled={ loading }
-                  className="group flex items-center gap-3 px-10 py-5 bg-[#232736] text-white rounded-md font-bold uppercase text-[10px] tracking-widest hover:bg-blue-600 transition-all duration-300 shadow-xl shadow-slate-200 disabled:opacity-50"
-                >
-                  { loading ? 'Sending...' : 'Send message' }
-                  <Send size={ 14 } className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
 
-      {/* --- GREETING POPUP MODAL --- */ }
-      { showPopup && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm transition-opacity">
-          <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl relative animate-in fade-in zoom-in duration-300">
+              </div>
+            )) }
+
+          </div>
+
+        </div>
+
+        {/* FORM */ }
+        <motion.div
+          initial={ { opacity: 0, y: 50 } }
+          whileInView={ { opacity: 1, y: 0 } }
+          viewport={ { once: true } }
+          className="bg-white rounded-[28px] md:rounded-[40px] p-5 sm:p-8 md:p-12 shadow-[0_20px_80px_rgba(15,23,42,0.08)] border border-slate-100"
+        >
+
+          <form className="space-y-6 md:space-y-8">
+
+            {/* Name */ }
+            <div>
+              <label className="text-sm font-semibold text-slate-900 block mb-3">
+                Full Name
+              </label>
+
+              <input
+                type="text"
+                placeholder="Shree Media Solutions"
+                className="w-full h-14 px-5 rounded-2xl border border-slate-200 focus:border-[#3884f5] focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+              />
+            </div>
+
+            {/* Email */ }
+            <div>
+              <label className="text-sm font-semibold text-slate-900 block mb-3">
+                Email Address
+              </label>
+
+              <input
+                type="email"
+                placeholder="hello@example.com"
+                className="w-full h-14 px-5 rounded-2xl border border-slate-200 focus:border-[#3884f5] focus:ring-4 focus:ring-blue-100 outline-none transition-all"
+              />
+            </div>
+
+            {/* Grid */ }
+            <div className="grid sm:grid-cols-2 gap-5 md:gap-6">
+
+              <div>
+                <label className="text-sm font-semibold text-slate-900 block mb-3">
+                  Budget
+                </label>
+
+                <select className="w-full h-14 px-5 rounded-2xl border border-slate-200 focus:border-[#3884f5] outline-none">
+                  <option>Select Budget</option>
+                  <option>₹5K - ₹20K</option>
+                  <option>₹20K - ₹50K</option>
+                  <option>₹50K+</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-sm font-semibold text-slate-900 block mb-3">
+                  Project Type
+                </label>
+
+                <select className="w-full h-14 px-5 rounded-2xl border border-slate-200 focus:border-[#3884f5] outline-none">
+                  <option>Select Type</option>
+                  <option>Branding</option>
+                  <option>Website</option>
+                  <option>UI/UX</option>
+                </select>
+              </div>
+
+            </div>
+
+            {/* Message */ }
+            <div>
+              <label className="text-sm font-semibold text-slate-900 block mb-3">
+                Message
+              </label>
+
+              <textarea
+                rows="6"
+                placeholder="Tell us about your project..."
+                className="w-full p-5 rounded-2xl border border-slate-200 focus:border-[#3884f5] focus:ring-4 focus:ring-blue-100 outline-none resize-none"
+              />
+            </div>
+
+            {/* Button */ }
             <button
-              onClick={ () => setShowPopup(false) }
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-900 transition-colors"
+              type="submit"
+              className="group w-full h-14 sm:h-16 rounded-2xl bg-[#3884f5] text-white font-bold text-base sm:text-lg flex items-center justify-center gap-3 hover:scale-[1.01] hover:shadow-[0_20px_40px_rgba(56,132,245,0.3)] transition-all duration-300"
             >
-              <X size={ 20 } />
+              Send Inquiry
+
+              <Send
+                size={ 18 }
+                className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+              />
             </button>
 
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 text-green-600 rounded-full mb-6">
-                <CheckCircle2 size={ 32 } />
-              </div>
+          </form>
 
-              <h3 className="text-2xl font-bold text-slate-900 mb-2">Thank you for reaching out!</h3>
-              <p className="text-slate-500 mb-8 leading-relaxed">
-                Your message has been received. We value your feedback and our team will get back to you shortly.
-              </p>
+        </motion.div>
 
-              <button
-                onClick={ () => setShowPopup(false) }
-                className="w-full py-4 bg-blue-600 text-white rounded-xl font-bold uppercase text-xs tracking-widest hover:bg-blue-700 transition-all shadow-lg shadow-blue-200"
-              >
-                Close Greeting
-              </button>
-            </div>
-          </div>
-        </div>
-      ) }
-    </section>
+      </div>
+
+    </div>
+
+  </section>
+
   );
 }

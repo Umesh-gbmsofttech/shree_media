@@ -1,215 +1,125 @@
-import React, { useRef, useState } from 'react'; // Added useState
-import { useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion'; // Added AnimatePresence
-import { ArrowRight, ChevronLeft, ChevronRight, Zap, ShoppingBag, Star, X, CheckCircle } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Star, X } from 'lucide-react';
 
-// --- ASSET IMPORTS ---
 import standy from '../../assets/standy.avif';
 import letterhead from '../../assets/letterhead.jpg';
 import flyer from '../../assets/flyer.webp';
 import banner from '../../assets/banner1.jpg';
-import idCard from '../../assets/idcard.webp'; 
+import idCard from '../../assets/idcard.webp';
 import stamps from '../../assets/stamp.webp';
 import certificate from '../../assets/certificate.jpg';
 import businesscard from '../../assets/businesscard.jpg';
 
-// --- DATA CONFIGURATION ---
 const categories = [
-  { title: "Industrial Printing", img: standy },
-  { title: "Packaging Printing", img: letterhead },
-  { title: "Gift Printing", img: flyer },
-  { title: "Outdoor Printing", img: banner },
-  { title: "Indoor Printing", img: idCard },
-  { title: "Sticker / Label", img: stamps },
+  { title: 'all printing', img: standy },
+  { title: 'Packaging printing', img: letterhead },
+  { title: 'Gift printing', img: flyer },
+  { title: 'Outdoor printing', img: banner },
+  { title: 'indoor printing', img: idCard },
+  { title: 'Industrial Printing', img: businesscard },
+  { title: 'sticker', img: stamps },
+  { title: 'box', img: certificate },
 ];
 
 const topSellers = [
-  { id: 1, title: "Letterhead 100gsm", price: "₹900", tag: "Featured", img: letterhead, rating: 4.8, description: "High-quality 100gsm bond paper letterheads with vibrant color printing. Perfect for professional corporate correspondence." },
-  { id: 2, title: "Basic Business Card", price: "₹500", tag: "Featured", img: businesscard, rating: 5.0, description: "Standard 350gsm matte finish cards. Crisp details and durable stock to leave a lasting first impression." },
-  { id: 3, title: "Rubber Stamps", price: "₹350", tag: "Popular", img: stamps, rating: 4.7, description: "Self-inking durable rubber stamps. Available in various sizes with high-definition impression quality." },
-  { id: 4, title: "PVC ID Cards", price: "₹150", tag: "New", img: idCard, rating: 4.9, description: "High-gloss PVC cards with chip compatibility. Water-resistant and smudge-proof for long-term employee use." },
-  { id: 5, title: "Premium Standy", price: "₹1,200", tag: "Popular", img: standy, rating: 4.6, description: "Aluminum roll-up stand with high-tension spring and star-media printing for maximum visibility at events." },
-  { id: 6, title: "Award Certificate", price: "₹250", tag: "Featured", img: certificate, rating: 5.0, description: "Gold-foil embossed certificates on textured parchment paper. Ideal for corporate awards and graduations." },
+  { id: 1, title: 'Premium Letterheads', price: 'INR 900', tag: 'Featured', img: letterhead, rating: 4.8 },
+  { id: 2, title: 'Business Card Pack', price: 'INR 500', tag: 'Popular', img: businesscard, rating: 5.0 },
+  { id: 3, title: 'Stamp Set', price: 'INR 350', tag: 'Professional', img: stamps, rating: 4.7 },
+  { id: 4, title: 'PVC ID Cards', price: 'INR 150', tag: 'Durable', img: idCard, rating: 4.9 },
+  { id: 5, title: 'Roll-Up Standees', price: 'INR 1200', tag: 'Top Rated', img: standy, rating: 4.6 },
+  { id: 6, title: 'Certificate Print', price: 'INR 250', tag: 'Premium', img: certificate, rating: 5.0 },
 ];
 
 export default function PrintingMarketplace() {
-  const scrollRef = useRef(null);
   const navigate = useNavigate();
-  const [selectedProduct, setSelectedProduct] = useState(null); // State for Popup
-
-  const scroll = (direction) => {
-    if (scrollRef.current) {
-      const { scrollLeft } = scrollRef.current;
-      const scrollTo = direction === 'left' ? scrollLeft - 450 : scrollLeft + 450;
-      scrollRef.current.scrollTo({ left: scrollTo, behavior: 'smooth' });
-    }
-  };
+  const [selectedProduct, setSelectedProduct] = useState(null);
 
   const handleCategoryClick = (title) => {
-    const normalized = title === 'Sticker / Label' ? 'Packaging Printing' : title;
-    navigate(`/services?category=${encodeURIComponent(normalized)}`);
+    navigate(`/services?category=${encodeURIComponent(title)}&scroll=items`);
+  };
+
+  const formatPrice = (value) => {
+    const amount = Number(String(value).replace(/[^\d.]/g, ''));
+    if (Number.isNaN(amount)) return value;
+    return `₹${Math.round(amount).toLocaleString('en-IN')}`;
   };
 
   return (
-    <section className="py-24 bg-[#F9FBFF] overflow-hidden selection:bg-blue-100 selection:text-blue-600">
-      <div className="container mx-auto px-6 lg:px-20">
-        
-        {/* --- SECTION 1: CATEGORIES --- */}
-        <div className="mb-24">
-          <div className="flex items-center justify-between mb-10">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 bg-blue-600 rounded-xl text-white shadow-lg shadow-blue-200">
-                <Zap size={20} fill="currentColor" />
-              </div>
-              <h3 className="text-2xl font-bold text-slate-800 tracking-tight">Printing Categories</h3>
-            </div>
-            <Link to="/services" className="inline-block">
-              <button className="text-sm font-bold text-blue-600 hover:underline underline-offset-4">
-                View All
-              </button>
-            </Link>
+    <section className="py-14 md:py-16 bg-white">
+      <div className="container-shell">
+        <div className="flex items-end justify-between gap-4 mb-7">
+          <div>
+            <p className="text-[11px] font-extrabold tracking-[0.2em] uppercase text-[#3884f5]">Our categories</p>
+            <h3 className="text-[34px] md:text-[40px] font-black leading-tight text-slate-900 mt-2">Explore Printing Categories</h3>
           </div>
-          
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-8">
-            {categories.map((cat, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.1 }}
-                whileHover={{ y: -8 }}
-                onClick={() => handleCategoryClick(cat.title)}
-                className="flex flex-col items-center gap-4 cursor-pointer group"
-              >
-                <div className="relative w-24 h-24 md:w-28 md:h-28">
-                  <div className="absolute inset-0 bg-blue-600 rounded-full scale-0 group-hover:scale-100 transition-transform duration-500 opacity-10" />
-                  <div className="w-full h-full rounded-full bg-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 overflow-hidden p-3 transition-all duration-300 group-hover:border-blue-200 group-hover:shadow-blue-100">
-                    <img src={cat.img} alt={cat.title} className="w-full h-full object-contain rounded-full" />
-                  </div>
-                </div>
-                <span className="text-sm font-bold text-slate-600 group-hover:text-blue-600 transition-colors">
-                  {cat.title}
-                </span>
-              </motion.div>
-            ))}
-          </div>
+          <Link to="/services" className="text-sm font-bold text-slate-700 hover:text-[#3884f5]">Explore all</Link>
         </div>
 
-        {/* --- SECTION 2: TOP SELLING PRINTS --- */}
-        <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
-          <div className="max-w-xl">
-            <div className="flex items-center gap-2 mb-4 text-orange-500">
-              <ShoppingBag size={18} />
-              <span className="text-xs font-black uppercase tracking-[0.2em]">Our Store</span>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
-              Top Printing <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Solutions.</span>
-            </h2>
-          </div>
-
-          <div className="flex gap-3">
-            <button onClick={() => scroll('left')} className="w-14 h-14 rounded-2xl border border-slate-200 bg-white flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all shadow-sm"><ChevronLeft size={24} /></button>
-            <button onClick={() => scroll('right')} className="w-14 h-14 rounded-2xl border border-slate-200 bg-white flex items-center justify-center text-slate-400 hover:text-blue-600 transition-all shadow-sm"><ChevronRight size={24} /></button>
-          </div>
-        </div>
-
-        <div ref={scrollRef} className="flex gap-8 overflow-x-auto no-scrollbar pb-10 snap-x snap-mandatory scroll-smooth">
-          {topSellers.map((item, index) => (
-            <motion.div
-              key={item.id}
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ delay: index * 0.05 }}
-              onClick={() => setSelectedProduct(item)} // OPEN POPUP ON CLICK
-              className="min-w-[300px] md:min-w-[350px] cursor-pointer snap-start group bg-white rounded-[2.5rem] border border-slate-100 shadow-[0_10px_40px_rgba(0,0,0,0.02)] hover:shadow-[0_30px_70px_rgba(0,0,0,0.07)] transition-all duration-500"
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-8 gap-4 md:gap-5 mb-12">
+          {categories.map((cat, i) => (
+            <motion.button
+              key={cat.title}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.06 }}
+              onClick={() => handleCategoryClick(cat.title)}
+              className="group text-center"
             >
-              <div className="relative aspect-[4/3] m-4 overflow-hidden rounded-[2rem] bg-slate-50">
-                <img src={item.img} alt={item.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
-                <div className="absolute top-5 left-5 px-4 py-1.5 bg-slate-900/90 backdrop-blur-md rounded-full border border-white/10">
-                  <span className="text-[10px] font-black text-white uppercase tracking-widest">{item.tag}</span>
-                </div>
-                <div className="absolute bottom-5 left-5 px-3 py-1 bg-white/90 backdrop-blur-md rounded-lg flex items-center gap-1.5">
-                  <Star size={12} className="text-orange-500 fill-orange-500" />
-                  <span className="text-xs font-bold text-slate-800">{item.rating}</span>
-                </div>
+              <div className="aspect-square rounded-xl p-2.5 border border-blue-100 bg-white overflow-hidden group-hover:border-[#3884f5] group-hover:-translate-y-1 transition-all">
+                <img src={cat.img} alt={cat.title} className="w-full h-full object-cover rounded-xl" />
               </div>
+              <p className="mt-2 text-xs md:text-sm font-bold text-slate-700 group-hover:text-[#3884f5] transition-colors">{cat.title}</p>
+            </motion.button>
+          ))}
+        </div>
 
-              <div className="px-8 pb-8 pt-2">
-                <h4 className="text-xl font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">{item.title}</h4>
-                <div className="flex justify-between items-center mt-6">
-                  <div className="space-y-0.5">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Starts at</p>
-                    <p className="text-2xl font-black text-slate-900">{item.price}</p>
-                  </div>
-                  <motion.div whileHover={{ scale: 1.1 }} className="w-14 h-14 rounded-2xl bg-slate-900 text-white flex items-center justify-center group-hover:bg-blue-600 transition-all shadow-lg">
-                    <ArrowRight size={22} />
-                  </motion.div>
+        <div className="flex items-end justify-between mb-5">
+          <div>
+            <p className="text-[11px] font-extrabold tracking-[0.2em] uppercase text-slate-400">Top services</p>
+            <h2 className="text-[34px] md:text-[40px] font-black leading-tight text-slate-900">Featured Printing Solutions</h2>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 pb-3">
+          {topSellers.map((item) => (
+            <motion.div key={item.id} whileHover={{ y: -6 }} className="bg-white border border-blue-100 rounded-xl overflow-hidden">
+              <button onClick={() => setSelectedProduct(item)} className="w-full text-left">
+                <div className="relative bg-white aspect-[4/3] p-3">
+                  <img src={item.img} alt={item.title} className="w-full h-full rounded-xl object-cover" />
+                  <span className="absolute top-5 left-5 text-[10px] font-bold uppercase bg-[#3884f5] text-white px-2.5 py-1 rounded-full">{item.tag}</span>
                 </div>
-              </div>
+                <div className="p-4">
+                  <p className="text-slate-900 font-bold">{item.title}</p>
+                  <div className="mt-2 flex items-center justify-between">
+                    <span className="font-semibold text-[13px] text-[#3884f5]">Starting from 10 for {formatPrice(item.price)}</span>
+                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-slate-500"><Star size={13} className="text-[#3884f5] fill-[#3884f5]" /> {item.rating}</span>
+                  </div>
+                </div>
+              </button>
             </motion.div>
           ))}
         </div>
       </div>
 
-      {/* --- PRODUCT POPUP MODAL --- */}
       <AnimatePresence>
         {selectedProduct && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-slate-900/60 backdrop-blur-sm">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="bg-white w-full max-w-2xl rounded-[2.5rem] overflow-hidden shadow-2xl relative"
-            >
-              <button 
-                onClick={() => setSelectedProduct(null)}
-                className="absolute top-6 right-6 z-10 w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg hover:bg-slate-50 transition-colors"
-              >
-                <X size={20} className="text-slate-500" />
+          <div className="fixed inset-0 z-[120] bg-black/50 grid place-items-center p-4">
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 20 }} className="bg-white rounded-2xl max-w-xl w-full p-5 relative">
+              <button onClick={() => setSelectedProduct(null)} className="absolute top-3 right-3"><X size={18} /></button>
+              <img src={selectedProduct.img} alt={selectedProduct.title} className="w-full h-60 object-cover rounded-xl" />
+              <h4 className="mt-4 text-2xl font-black text-slate-900">{selectedProduct.title}</h4>
+              <p className="text-slate-600 mt-2">Crafted for premium branding and business use.</p>
+              <button onClick={() => navigate('/contact')} className="mt-5 inline-flex items-center gap-2 bg-[#3884f5] text-white px-5 py-3 rounded-full text-sm font-bold hover:brightness-110 transition-colors">
+                Contact for Quote <ArrowRight size={15} />
               </button>
-
-              <div className="flex flex-col md:flex-row">
-                <div className="md:w-1/2 h-64 md:h-auto bg-slate-100">
-                  <img src={selectedProduct.img} alt={selectedProduct.title} className="w-full h-full object-cover" />
-                </div>
-
-                <div className="md:w-1/2 p-8 md:p-10 flex flex-col justify-center">
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="px-3 py-1 bg-blue-50 text-blue-600 text-[10px] font-black uppercase tracking-widest rounded-full">{selectedProduct.tag}</span>
-                    <div className="flex items-center gap-1">
-                      <Star size={12} className="text-orange-500 fill-orange-500" />
-                      <span className="text-xs font-bold text-slate-600">{selectedProduct.rating}</span>
-                    </div>
-                  </div>
-
-                  <h3 className="text-3xl font-bold text-slate-900 mb-4">{selectedProduct.title}</h3>
-                  <p className="text-slate-500 leading-relaxed mb-6 text-sm">{selectedProduct.description}</p>
-                  
-                  <div className="mb-8">
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">Total Price</p>
-                    <p className="text-3xl font-black text-blue-600">{selectedProduct.price}</p>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <button onClick={() => navigate('/services')} className="py-4 bg-slate-950 text-white rounded-2xl font-bold text-sm hover:bg-blue-600 transition-colors flex items-center justify-center gap-2 shadow-lg">
-                      Order Now
-                    </button>
-                    <button className="py-4 border-2 border-slate-100 text-slate-900 rounded-2xl font-bold text-sm hover:border-blue-200 hover:bg-blue-50 transition-all">
-                      Add to Cart
-                    </button>
-                  </div>
-                </div>
-              </div>
             </motion.div>
           </div>
         )}
       </AnimatePresence>
 
-      <style>{`
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      `}</style>
+      <style>{`.no-scrollbar::-webkit-scrollbar { display: none; } .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }`}</style>
     </section>
   );
 }

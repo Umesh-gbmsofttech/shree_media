@@ -1,196 +1,68 @@
-import { useState, useEffect } from "react";
-import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
-import {
-  Menu,
-  X,
-  User,
-  ShoppingCart,
-} from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
-import { useCart } from "../../context/CartContext";
+import { useState, useEffect } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import { PhoneCall } from 'lucide-react';
 
 const navLinks = [
-  { to: "/", label: "Home" },
-  { to: "/services", label: "Services" },
-  { to: "/blog", label: "Blog" },
-  { to: "/contact", label: "Contact" },
+  { to: '/', label: 'Home' },
+  { to: '/services', label: 'Services' },
+  { to: '/blog', label: 'Blog' },
+  { to: '/contact', label: 'Contact' },
 ];
 
 export default function IntegratedHeader() {
-  const [ scrolled, setScrolled ] = useState(false);
-  const [ mobileMenuOpen, setMobileMenuOpen ] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const { totalItems } = useCart();
-  const navigate = useNavigate();
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const handleScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [ location.pathname ]);
-
-  useEffect(() => {
-    document.body.style.overflow = mobileMenuOpen ? "hidden" : "auto";
-  }, [ mobileMenuOpen ]);
-
-  useEffect(() => {
-    setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
-  }, [location.pathname]);
-
-  const handleAuthClick = () => {
-    if (isLoggedIn) {
-      localStorage.removeItem("isLoggedIn");
-      setIsLoggedIn(false);
-      navigate("/");
-      return;
-    }
-    navigate("/login");
-  };
-
   return (
-    <header
-      className={ `fixed inset-x-0 top-0 z-50 transition-all duration-500 ${scrolled
-          ? "py-3 bg-[#0a0f1c]/80 backdrop-blur-xl border-b border-white/10 shadow-xl"
-          : "py-6 bg-transparent border-b border-transparent"
-        }` }
-    >
-      <nav className="max-w-[1400px] mx-auto px-6 md:px-10 flex items-center justify-between">
+    <header className="fixed inset-x-0 top-0 z-50">
+      <div className="bg-[#3884f5] text-white text-center text-[11px] font-semibold tracking-wide py-1.5">
+        Professional Printing Services
+      </div>
 
-        {/* 🔹 Logo */ }
-        <Link to="/" className="flex-shrink-0 group">
-          <div className="flex items-center gap-2.5">
-
-            <div
-              className={ `p-2 rounded-xl flex items-center justify-center ${scrolled
-                  ? "bg-slateo-200"
-                  : "bg-slate-200/10 backdrop-blur-md border border-white/20"
-                }` }
-            >
-              <img
-                src="/shreemediasolutions.png"
-                alt="Shree Media Logo"
-                className="w-10 h-10 object-contain"
-                style={ {
-                  imageRendering: "crisp-edges",
-                } }
-              />
-            </div>
-
-            <span
-              className={ `text-xl font-extrabold tracking-wide ${scrolled ? "text-white" : "text-slate-900"
-                }` }
-            >
-              SHREE<span className="text-indigo-600">MEDIA</span>
-            </span>
-
+      <div className={`transition-all duration-300 ${scrolled ? 'bg-white/95 border-b border-blue-100 shadow-sm backdrop-blur-md' : 'bg-white border-b border-blue-50'}`}>
+        <nav className="max-w-[1320px] mx-auto px-4 md:px-8 h-[68px] flex items-center justify-between gap-4">
+          <div className="flex items-center gap-6">
+            <Link to="/" className="flex items-center gap-2.5">
+              <img src="/shreemediasolutions.png" alt="Shree Media" className="w-10 h-10 object-contain" />
+              <span className="font-extrabold text-slate-900 tracking-tight text-[21px]">ShreeMedia</span>
+            </Link>
           </div>
-        </Link>
 
-        {/* 🔹 Desktop Nav */ }
-        <div
-          className={ `hidden lg:flex items-center gap-1 p-1 rounded-full border ${scrolled
-              ? "bg-white/5 border-white/10"
-              : "bg-slate-900/5 border-slate-950/5 backdrop-blur-md"
-            }` }
-        >
-          { navLinks.map((link) => (
-            <NavLink key={ link.to } to={ link.to }>
-              { ({ isActive }) => (
-                <div
-                  className={ `relative px-5 py-2 text-[13px] font-bold rounded-full transition-all ${isActive
-                      ? "text-white"
-                      : scrolled
-                        ? "text-white/60 hover:text-white"
-                        : "text-slate-600 hover:text-slate-950"
-                    }` }
-                >
-                  <span className="relative z-10">{ link.label }</span>
+          <div className="hidden lg:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <NavLink key={link.to} to={link.to} className={({ isActive }) => `text-[14px] font-semibold transition-colors ${isActive ? 'text-[#3884f5]' : 'text-slate-600 hover:text-[#3884f5]'}`}>
+                {link.label}
+              </NavLink>
+            ))}
+          </div>
 
-                  { isActive && (
-                    <motion.div
-                      layoutId="nav-pill"
-                      className={ `absolute inset-0 rounded-full ${scrolled ? "bg-indigo-600" : "bg-slate-900"
-                        }` }
-                    />
-                  ) }
-                </div>
-              ) }
-            </NavLink>
-          )) }
-        </div>
+          <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-[#3884f5] text-white px-4 py-2 text-xs font-bold uppercase tracking-wide hover:brightness-110 transition">
+            <PhoneCall size={13} /> Get Quote
+          </Link>
+        </nav>
 
-        {/* 🔹 CTA Section */ }
-        <div className="flex items-center gap-4">
-
-          {/* 🛒 Cart */ }
-          <button
-            onClick={ () => navigate("/cart") }
-            className={ `relative p-2.5 rounded-xl transition-all hover:scale-110 ${scrolled
-                ? "bg-white/10 text-white hover:bg-indigo-600"
-                : "bg-slate-900/5 text-slate-900 hover:bg-indigo-600 hover:text-white"
-              }` }
-          >
-            <ShoppingCart size={ 18 } />
-
-            { totalItems > 0 && (
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] px-1.5 py-[1px] rounded-full font-bold">
-                { totalItems }
-              </span>
-            ) }
-          </button>
-
-          {/* 🔐 Login */ }
-          <button
-            onClick={handleAuthClick}
-            className={ `flex items-center gap-2 text-[13px] font-black uppercase px-7 py-3 rounded-full transition-all ${scrolled
-                ? "bg-white text-slate-900 hover:bg-indigo-600 hover:text-white"
-                : "bg-indigo-600 text-white hover:bg-slate-900"
-              }` }
-          >
-            <User size={ 14 } strokeWidth={ 3 } />
-            {isLoggedIn ? 'Log out' : 'Log in'}
-          </button>
-
-          {/* 📱 Mobile Menu */ }
-          <button
-            className="lg:hidden p-2.5 rounded-xl"
-            onClick={ () => setMobileMenuOpen(!mobileMenuOpen) }
-          >
-            { mobileMenuOpen ? <X size={ 20 } /> : <Menu size={ 20 } /> }
-          </button>
-        </div>
-      </nav>
-
-      {/* 🔹 Mobile Menu */ }
-      <AnimatePresence>
-        { mobileMenuOpen && (
-          <motion.div
-            initial={ { height: 0, opacity: 0 } }
-            animate={ { height: "auto", opacity: 1 } }
-            exit={ { height: 0, opacity: 0 } }
-            className="lg:hidden bg-white p-6 space-y-4"
-          >
-            { navLinks.map((link) => (
-              <Link
-                key={ link.to }
-                to={ link.to }
-                className="block text-slate-800 font-semibold"
+        <div className="lg:hidden border-t border-blue-100">
+          <div className="max-w-[1320px] mx-auto px-4 md:px-8 py-2.5 flex items-center justify-between gap-4 overflow-x-auto whitespace-nowrap">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.to}
+                to={link.to}
+                className={({ isActive }) =>
+                  `text-[13px] font-semibold ${isActive ? 'text-[#3884f5]' : 'text-slate-600'}`
+                }
               >
-                { link.label }
-              </Link>
-            )) }
-          </motion.div>
-        ) }
-      </AnimatePresence>
+                {link.label}
+              </NavLink>
+            ))}
+          </div>
+        </div>
+      </div>
     </header>
   );
 }

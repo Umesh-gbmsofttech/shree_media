@@ -12,13 +12,6 @@ import Services from './pages/Services';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import Blog from './pages/Blog';
-import Cart from "./pages/Cart"; 
-
-
-// --- AUTH PAGES IMPORT ---
-import Login from './components/layout/Login';   // Ensure the filename is Login.jsx
-import Signup from './components/layout/Signup'; // Ensure the filename is Signup.jsx
-import ForgotPassword from './components/layout/ForgotPassword'; // Import the new file
 
 // Helper component to force scroll to top
 function ScrollToTop() {
@@ -51,15 +44,6 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
           
-          {/* --- AUTHENTICATION ROUTES --- */}
-          {/* This path matches the navigate('/login') in your Header */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          {/* Optional: Redirect "/get-started" to login if you still use that link elsewhere */}
-          <Route path="/get-started" element={<Login />} />
-          <Route path="/cart" element={<Cart />} />
-
         </Routes>
       </main>
 

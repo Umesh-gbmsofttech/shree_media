@@ -31,4 +31,4 @@ export const products = [
   { id: 15, title: 'Certificate Print', tag: 'Popular', category: 'Industrial Printing', price: 'INR 299.00', qty: '5', img: imgCert, description: 'Premium certificate printing for institutions and events.' }
 ];
 
-export const filters = ['All', 'Industrial Printing', 'Packaging Printing', 'Gift Printing', 'Outdoor Printing', 'Indoor Printing'];
+export const filters = ['all printing', 'Packaging printing', 'Gift printing', 'Outdoor printing', 'indoor printing', 'Industrial Printing', 'sticker', 'box'];
