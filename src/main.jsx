@@ -3,8 +3,6 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
-import { CartProvider } from './context/CartContext' // ✅ import
-
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -14,10 +12,7 @@ createRoot(document.getElementById('root')).render(
         v7_relativeSplatPath: true,
       }}
     >
-     <CartProvider>  
       <App />
-    </CartProvider>
-
     </BrowserRouter>
   </StrictMode>,
 )

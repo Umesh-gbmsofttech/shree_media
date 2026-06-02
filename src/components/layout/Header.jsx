@@ -1,68 +1,103 @@
-import { useState, useEffect } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
-import { PhoneCall } from 'lucide-react';
+import React, { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Search, Menu, X } from 'lucide-react';
 
-const navLinks = [
-  { to: '/', label: 'Home' },
-  { to: '/services', label: 'Services' },
-  { to: '/blog', label: 'Blog' },
-  { to: '/contact', label: 'Contact' },
-];
-
-export default function IntegratedHeader() {
-  const [scrolled, setScrolled] = useState(false);
+const Header = ({ searchQuery, setSearchQuery }) => {
   const location = useLocation();
+  const [ isMenuOpen, setIsMenuOpen ] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 24);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const navLinks = [
+    { name: 'PRINTING', path: '/' },
+    { name: 'DIGITAL MARKETING', path: '/digital-marketing' },
+    { name: 'WEBSITE DEVELOPMENT', path: '/website-development' },
+  ];
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
-      <div className="bg-[#3884f5] text-white text-center text-[11px] font-semibold tracking-wide py-1.5">
-        Professional Printing Services
-      </div>
+    <header className="bg-brand-blue text-white shadow-md sticky top-0 z-50">
+      <div className="container mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
 
-      <div className={`transition-all duration-300 ${scrolled ? 'bg-white/95 border-b border-blue-100 shadow-sm backdrop-blur-md' : 'bg-white border-b border-blue-50'}`}>
-        <nav className="max-w-[1320px] mx-auto px-4 md:px-8 h-[68px] flex items-center justify-between gap-4">
-          <div className="flex items-center gap-6">
-            <Link to="/" className="flex items-center gap-2.5">
-              <img src="/shreemediasolutions.png" alt="Shree Media" className="w-10 h-10 object-contain" />
-              <span className="font-extrabold text-slate-900 tracking-tight text-[21px]">ShreeMedia</span>
-            </Link>
-          </div>
+        {/* Logo */ }
+        <Link to="/" className="flex items-center flex-shrink-0" onClick={ () => setIsMenuOpen(false) }>
+          <img
+            src="/ShreeMediaSolutions.png"
+            alt="Shree Media Solutions"
+            className="h-8 md:h-10 w-auto object-contain"
+          />
+        </Link>
 
-          <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <NavLink key={link.to} to={link.to} className={({ isActive }) => `text-[14px] font-semibold transition-colors ${isActive ? 'text-[#3884f5]' : 'text-slate-600 hover:text-[#3884f5]'}`}>
-                {link.label}
-              </NavLink>
-            ))}
-          </div>
+        {/* Mobile Menu Toggle */ }
+        <button
+          className="md:hidden p-2 text-white"
+          onClick={ () => setIsMenuOpen(!isMenuOpen) }
+        >
+          { isMenuOpen ? <X size={ 28 } /> : <Menu size={ 28 } /> }
+        </button>
 
-          <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-[#3884f5] text-white px-4 py-2 text-xs font-bold uppercase tracking-wide hover:brightness-110 transition">
-            <PhoneCall size={13} /> Get Quote
-          </Link>
-        </nav>
-
-        <div className="lg:hidden border-t border-blue-100">
-          <div className="max-w-[1320px] mx-auto px-4 md:px-8 py-2.5 flex items-center justify-between gap-4 overflow-x-auto whitespace-nowrap">
-            {navLinks.map((link) => (
-              <NavLink
-                key={link.to}
-                to={link.to}
-                className={({ isActive }) =>
-                  `text-[13px] font-semibold ${isActive ? 'text-[#3884f5]' : 'text-slate-600'}`
-                }
+        {/* Desktop: Navigation + Search */ }
+        <div className="hidden md:flex items-center gap-6 lg:gap-8">
+          <nav className="flex items-center gap-5 lg:gap-7">
+            { navLinks.map((link) => (
+              <Link
+                key={ link.name }
+                to={ link.path }
+                className={ `text-base lg:text-md xl:text-md font-poppins font-medium tracking-tight transition-all duration-200 py-1 whitespace-nowrap ${location.pathname === link.path
+                  ? 'text-white border-b-2 border-white'
+                  : 'text-white hover:text-gray-200'
+                  }` }
               >
-                {link.label}
-              </NavLink>
-            ))}
+                { link.name }
+              </Link>
+            )) }
+          </nav>
+
+          <div className="relative w-48 lg:w-64">
+            <input
+              type="text"
+              placeholder="Search"
+              value={ searchQuery }
+              onChange={ (e) => setSearchQuery(e.target.value) }
+              className="w-full h-7 pl-9 pr-4 rounded-md bg-white text-gray-800 text-sm border-none focus:outline-none focus:ring-2 focus:ring-white/50"
+            />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
           </div>
         </div>
       </div>
+
+      {/* Mobile Menu Overlay */ }
+      { isMenuOpen && (
+        <div className="md:hidden bg-brand-blue border-t border-white/10 animate-in slide-in-from-top duration-300">
+          <div className="container mx-auto px-6 py-8 flex flex-col gap-6">
+            <nav className="flex flex-col gap-6">
+              { navLinks.map((link) => (
+                <Link
+                  key={ link.name }
+                  to={ link.path }
+                  onClick={ () => setIsMenuOpen(false) }
+                  className={ `text-xl font-black tracking-tight ${location.pathname === link.path
+                    ? 'text-white'
+                    : 'text-white/80'
+                    }` }
+                >
+                  { link.name }
+                </Link>
+              )) }
+            </nav>
+
+            <div className="relative w-full mt-4">
+              <input
+                type="text"
+                placeholder="Search printing solutions..."
+                value={ searchQuery }
+                onChange={ (e) => setSearchQuery(e.target.value) }
+                className="w-full h-12 pl-12 pr-4 rounded-xl bg-white text-gray-800 text-lg border-none focus:outline-none"
+              />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-6 h-6" />
+            </div>
+          </div>
+        </div>
+      ) }
     </header>
   );
-}
+};
+
+export default Header;

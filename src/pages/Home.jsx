@@ -1,23 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Hero from '../components/sections/Hero';
-import ServicesSection from '../components/sections/ServicesSection';
-import AboutPreview from '../components/sections/AboutPreview';
-import Testimonials from '../components/sections/Testimonials';
-import CTASection from '../components/sections/CTASection';
+import CategoryGrid from '../components/sections/CategoryGrid';
+import ProductsGrid from '../components/sections/ProductsGrid';
+import ContactBar from '../components/layout/ContactBar';
 
-export default function Home() {
+const Home = ({ searchQuery }) => {
+  const [activeCategory, setActiveCategory] = useState('All Printing');
+
   return (
-    <div className="relative">
-      <div className="sticky top-0 z-0 h-screen overflow-hidden">
-        <Hero />
-      </div>
-
-      <div className="relative z-10 bg-white">
-        <ServicesSection />
-        <AboutPreview />
-        <Testimonials />
-        <CTASection />
+    <div className="flex flex-col w-full">
+      <Hero />
+      <ContactBar />
+      <div className="container mx-auto px-6 md:px-12 py-8">
+        <CategoryGrid 
+          activeCategory={activeCategory} 
+          setActiveCategory={setActiveCategory} 
+        />
+        <ProductsGrid 
+          activeCategory={activeCategory} 
+          searchQuery={searchQuery}
+        />
       </div>
     </div>
   );
-}
+};
+
+export default Home;

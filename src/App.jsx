@@ -1,17 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 
 // Layout & Components
-import IntegratedHeader from './components/layout/Header';
+import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
+import WhatsAppWidget from './components/ui/WhatsAppWidget';
 
 // Pages
 import Home from './pages/Home';
-
-import Services from './pages/Services';
-import Projects from './pages/Projects';
-import Contact from './pages/Contact';
-import Blog from './pages/Blog';
+import DigitalMarketing from './pages/DigitalMarketing';
+import WebsiteDevelopment from './pages/WebsiteDevelopment';
 
 // Helper component to force scroll to top
 function ScrollToTop() {
@@ -27,27 +25,24 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  const [searchQuery, setSearchQuery] = useState('');
+
   return (
-    <div className="bg-white text-slate-900 selection:bg-blue-100">
+    <div className="bg-brand-bg text-gray-800 min-h-screen flex flex-col selection:bg-brand-blue/10">
       <ScrollToTop />
       
-      {/* Navigation */}
-      <IntegratedHeader />
+      <Header searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       
-      <main>
+      <main className="flex-grow">
         <Routes>
-          {/* Main Pages */}
-          <Route path="/" element={<Home />} />
-          
-          <Route path="/services" element={<Services />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/blog" element={<Blog />} />
-          
+          <Route path="/" element={<Home searchQuery={searchQuery} />} />
+          <Route path="/digital-marketing" element={<DigitalMarketing />} />
+          <Route path="/website-development" element={<WebsiteDevelopment />} />
         </Routes>
       </main>
 
       <Footer />
+      <WhatsAppWidget />
     </div>
   );
 }
