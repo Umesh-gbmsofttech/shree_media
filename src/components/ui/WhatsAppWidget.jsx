@@ -10,10 +10,10 @@ const WhatsAppWidget = () => {
       className="fixed bottom-6 right-6 z-[999] transition-transform hover:scale-110 active:scale-95 group"
       aria-label="Chat on WhatsApp"
     >
-      <img 
-        src={whatsappIcon} 
-        alt="WhatsApp" 
-        className="w-[50px] h-[50px] md:w-[60px] md:h-[60px] drop-shadow-xl"
+      <img
+        src={ whatsappIcon }
+        alt="WhatsApp"
+        className="w-[70px] h-[70px] md:w-[80px] md:h-[80px] drop-shadow-xl"
       />
     </a>
   );

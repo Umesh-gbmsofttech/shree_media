@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import ServiceHero from '../components/sections/ServiceHero';
 import ServiceGrid from '../components/sections/ServiceGrid';
 import ProcessSection from '../components/sections/ProcessSection';
@@ -66,7 +67,12 @@ const WebsiteDevelopment = () => {
   ];
 
   return (
-    <main className="bg-white">
+    <motion.main 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="bg-white"
+    >
       <ServiceHero 
         title="Website Development"
         subtitle="Digital Engineering Excellence"
@@ -90,7 +96,7 @@ const WebsiteDevelopment = () => {
         description="Partner with Shree Media Solutions for expert web development that takes your business to the next level."
         whatsappMessage="Can I get more info about Website Development"
       />
-    </main>
+    </motion.main>
   );
 };
 

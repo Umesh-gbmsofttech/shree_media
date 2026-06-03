@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import ServiceHero from '../components/sections/ServiceHero';
 import ServiceGrid from '../components/sections/ServiceGrid';
 import ProcessSection from '../components/sections/ProcessSection';
@@ -66,7 +67,12 @@ const DigitalMarketing = () => {
   ];
 
   return (
-    <main className="bg-white">
+    <motion.main 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="bg-white"
+    >
       <ServiceHero 
         title="Digital Marketing Solutions"
         subtitle="Grow Your Digital Footprint"
@@ -92,7 +98,7 @@ const DigitalMarketing = () => {
         description="Join leading brands that trust Shree Media Solutions for their digital growth. Let's build your success story together."
         whatsappMessage="Can I get more info about Digital Marketing"
       />
-    </main>
+    </motion.main>
   );
 };
 

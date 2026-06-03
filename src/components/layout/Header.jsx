@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Search, Menu, X } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const Header = ({ searchQuery, setSearchQuery }) => {
   const location = useLocation();
@@ -13,7 +14,12 @@ const Header = ({ searchQuery, setSearchQuery }) => {
   ];
 
   return (
-    <header className="bg-brand-blue text-white shadow-md sticky top-0 z-50">
+    <motion.header
+      initial={ { y: -100, opacity: 0 } }
+      animate={ { y: 0, opacity: 1 } }
+      transition={ { duration: 0.5, ease: "easeOut" } }
+      className="bg-brand-blue text-white shadow-md sticky top-0 z-50"
+    >
       <div className="container mx-auto px-6 md:px-12 py-4 flex items-center justify-between">
 
         {/* Logo */ }
@@ -96,7 +102,7 @@ const Header = ({ searchQuery, setSearchQuery }) => {
           </div>
         </div>
       ) }
-    </header>
+    </motion.header>
   );
 };
 

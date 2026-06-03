@@ -1,9 +1,16 @@
 import React from 'react';
 import { Phone, Mail, MapPin } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const ContactBar = ({ isFooter = false }) => {
   return (
-    <div className={ `${isFooter ? 'bg-brand-blue' : ''} w-full` }>
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.95 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5 }}
+      className={ `${isFooter ? 'bg-brand-blue' : ''} w-full` }
+    >
       <div
         className={ `${isFooter
           ? 'w-full'
@@ -102,7 +109,7 @@ const ContactBar = ({ isFooter = false }) => {
           ) }
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

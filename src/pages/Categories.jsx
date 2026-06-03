@@ -1,5 +1,6 @@
 import React from 'react';
 import { ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 import ProductsGrid from '../components/sections/ProductsGrid';
 
 // Import category images
@@ -19,6 +20,7 @@ const categories = [
   { name: 'Gift printing', img: giftImg },
   { name: 'sticker', img: stickerImg },
   { name: 'Box', img: boxImg },
+  { name: 'Hospital Printings', img: allImg },
   { name: 'Outdoor printing', img: outdoorImg },
   { name: 'Indoor printing', img: indoorImg },
 ];
@@ -33,7 +35,12 @@ const Categories = ({ activeCategory, setActiveCategory, searchQuery }) => {
   };
 
   return (
-    <div className="flex flex-col w-full min-h-screen">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="flex flex-col w-full min-h-screen"
+    >
       <div className="container mx-auto px-6 md:px-12 py-12">
         <div className="mb-12">
           <h1 className="text-[24px] md:text-[22px] font-bold mb-8 !font-open-sans !text-section-heading flex items-center gap-2">
@@ -41,12 +48,12 @@ const Categories = ({ activeCategory, setActiveCategory, searchQuery }) => {
             Printing Categories
           </h1>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-3 md:gap-4">
+          <div className="flex flex-nowrap overflow-x-auto scrollbar-hide gap-2 md:gap-4 pb-2 -mx-2 px-2 justify-between">
             { categories.map((cat) => (
               <button
                 key={ cat.name }
                 onClick={ () => handleCategoryClick(cat.name) }
-                className={ `flex flex-col items-center group transition-all duration-500 ease-out mx-auto ${activeCategory === cat.name ? '' : ''
+                className={ `flex flex-col items-center group transition-all duration-500 ease-out flex-shrink-0 ${activeCategory === cat.name ? '' : ''
                   }` }
               >
                 <div className={ `w-24 h-24 rounded-2xl mb-3 overflow-hidden flex items-center justify-center bg-white transition-all duration-500 ease-out shadow-md ${activeCategory === cat.name ? 'shadow-xl ring-2 ring-brand-blue/20' : 'group-hover:shadow-xl'
@@ -71,7 +78,7 @@ const Categories = ({ activeCategory, setActiveCategory, searchQuery }) => {
           searchQuery={ searchQuery }
         />
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import Fuse from 'fuse.js';
 import { Printer, FileText, ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 import productData from '../../data/products.json';
 
 // Import images dynamically
@@ -37,7 +38,14 @@ const ProductsGrid = ({ activeCategory, searchQuery }) => {
   }, [ activeCategory, searchQuery, allProducts ]);
 
   return (
-    <div id="products-section" className="mb-12 scroll-mt-24">
+    <motion.div
+      initial={ { opacity: 0, y: 20 } }
+      whileInView={ { opacity: 1, y: 0 } }
+      viewport={ { once: true } }
+      transition={ { duration: 0.6 } }
+      id="products-section"
+      className="mb-12 scroll-mt-24"
+    >
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-[20px] font-bold !font-open-sans leading-[28px] !text-section-heading flex items-center gap-2">
           <ChevronRight className="text-brand-blue w-6 h-6 stroke-[3px]" />
@@ -55,9 +63,7 @@ const ProductsGrid = ({ activeCategory, searchQuery }) => {
     group
     relative
     flex flex-col
-    bg-white
-    rounded-[16px]
-    border border-[#E8ECF2]
+    bg-transparent
     overflow-hidden
     min-h-[160px]
 
@@ -66,31 +72,10 @@ const ProductsGrid = ({ activeCategory, searchQuery }) => {
     duration-500
     ease-[cubic-bezier(0.22,1,0.36,1)]
 
-    shadow-[0_4px_12px_rgba(0,0,0,0.05)]
-
     hover:-translate-y-1
-    hover:border-transparent
-    hover:shadow-[0_15px_35px_rgba(0,0,0,0.2)]
-
     cursor-pointer
   "
             >
-              {/* Hover Glow */ }
-              <div
-                className="
-      absolute inset-0
-      opacity-0
-      transition-opacity
-      duration-500
-      pointer-events-none
-      bg-gradient-to-b
-      from-white/0
-      via-white/0
-      to-[#0D6EFD08]
-      group-hover:opacity-100
-    "
-              />
-
               {/* Image Section */ }
               <div
                 className="
@@ -99,7 +84,6 @@ const ProductsGrid = ({ activeCategory, searchQuery }) => {
       mb-1.5
       overflow-hidden
       rounded-[12px]
-      bg-[#F7F8FA]
       aspect-[4/3]
     "
               >
@@ -137,7 +121,7 @@ const ProductsGrid = ({ activeCategory, searchQuery }) => {
                   >
                     <div className="relative">
                       <Printer className="w-10 h-10 opacity-20" />
-                      <FileText className="absolute -bottom-1 -right-1 w-5 h-5 opacity-40 bg-[#F7F8FA] rounded-sm p-0.5" />
+                      <FileText className="absolute -bottom-1 -right-1 w-5 h-5 opacity-40 rounded-sm p-0.5" />
                     </div>
                   </div>
                 ) }
@@ -174,7 +158,7 @@ const ProductsGrid = ({ activeCategory, searchQuery }) => {
           <p className="text-gray-500 font-medium !text-brand-text">No products found matching your search.</p>
         </div>
       ) }
-    </div>
+    </motion.div>
   );
 };
 
