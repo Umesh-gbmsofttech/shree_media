@@ -42,16 +42,16 @@ const CategoryGrid = ({ activeCategory, setActiveCategory }) => {
         <Link to="/categories" className="text-sm font-bold !text-brand-blue hover:underline">View All &rarr;</Link>
       </div>
 
-      {/* Grid layout with 6 columns on large screens, limited to first 6 items */ }
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
-        { categories.slice(0, 6).map((cat) => (
+      {/* Grid layout with 8 columns on large screens */ }
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-3 md:gap-4">
+        { categories.map((cat) => (
           <button
             key={ cat.name }
             onClick={ () => handleCategoryClick(cat.name) }
             className={ `flex flex-col items-center group transition-all duration-500 ease-out mx-auto ${activeCategory === cat.name ? '' : 'opacity-100'
               }` }
           >
-            <div className={ `w-28 h-28 rounded-2xl mb-3 overflow-hidden flex items-center justify-center bg-white transition-all duration-500 ease-out shadow-md ${activeCategory === cat.name ? 'shadow-xl ring-2 ring-brand-blue/20' : 'group-hover:shadow-xl'
+            <div className={ `w-24 h-24 rounded-2xl mb-3 overflow-hidden flex items-center justify-center bg-white transition-all duration-500 ease-out shadow-md ${activeCategory === cat.name ? 'shadow-xl ring-2 ring-brand-blue/20' : 'group-hover:shadow-xl'
               }` }>
               <img
                 src={ cat.img }
@@ -59,7 +59,7 @@ const CategoryGrid = ({ activeCategory, setActiveCategory }) => {
                 className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               />
             </div>
-            <p className={ `w-28 text-[14px] font-bold text-center leading-[20px] transition-colors duration-500 !font-open-sans ${activeCategory === cat.name ? '!text-brand-blue' : 'text-[#1F2937] group-hover:!text-brand-blue'
+            <p className={ `w-24 text-[14px] font-bold text-center leading-[20px] transition-colors duration-500 !font-open-sans ${activeCategory === cat.name ? '!text-brand-blue' : 'text-[#1F2937] group-hover:!text-brand-blue'
               }` }>
               { cat.name }
             </p>
