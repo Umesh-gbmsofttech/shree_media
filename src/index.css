@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Roboto:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -12,7 +13,7 @@
 
   body {
     @apply m-0 bg-brand-bg text-brand-text antialiased;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Open Sans', 'Roboto', 'Poppins', sans-serif;
   }
 
   h1,
@@ -43,4 +44,22 @@
   .section-padding {
     @apply px-4 md:px-6 lg:px-8;
   }
+}
+
+.product-card-shine {
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.45),
+      transparent);
+  transform: skewX(-25deg);
+  transition: left 0.8s ease;
+}
+
+.group:hover .product-card-shine {
+  left: 160%;
 }

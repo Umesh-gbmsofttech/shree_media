@@ -8,6 +8,7 @@ import WhatsAppWidget from './components/ui/WhatsAppWidget';
 
 // Pages
 import Home from './pages/Home';
+import Categories from './pages/Categories';
 import DigitalMarketing from './pages/DigitalMarketing';
 import WebsiteDevelopment from './pages/WebsiteDevelopment';
 
@@ -26,6 +27,7 @@ function ScrollToTop() {
 
 export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [activeCategory, setActiveCategory] = useState('All Printing');
 
   return (
     <div className="bg-brand-bg text-gray-800 min-h-screen flex flex-col selection:bg-brand-blue/10">
@@ -35,7 +37,8 @@ export default function App() {
       
       <main className="flex-grow">
         <Routes>
-          <Route path="/" element={<Home searchQuery={searchQuery} />} />
+          <Route path="/" element={<Home searchQuery={searchQuery} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />} />
+          <Route path="/categories" element={<Categories searchQuery={searchQuery} activeCategory={activeCategory} setActiveCategory={setActiveCategory} />} />
           <Route path="/digital-marketing" element={<DigitalMarketing />} />
           <Route path="/website-development" element={<WebsiteDevelopment />} />
         </Routes>

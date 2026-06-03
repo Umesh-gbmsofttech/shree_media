@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import Fuse from 'fuse.js';
+import { Printer, FileText, ChevronRight } from 'lucide-react';
 import productData from '../../data/products.json';
 
 // Import images dynamically
@@ -36,36 +37,133 @@ const ProductsGrid = ({ activeCategory, searchQuery }) => {
   }, [ activeCategory, searchQuery, allProducts ]);
 
   return (
-    <div id="products-section" className="mb-12 scroll-mt-24 px-1">
+    <div id="products-section" className="mb-12 scroll-mt-24">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl font-bold uppercase tracking-wide !text-brand-text">All PRINTING SOLUTIONS</h2>
-        <button className="text-sm font-bold !text-brand-blue hover:underline">View All &rarr;</button>
+        <h2 className="text-[20px] font-bold !font-open-sans leading-[28px] !text-section-heading flex items-center gap-2">
+          <ChevronRight className="text-brand-blue w-6 h-6 stroke-[3px]" />
+          All Printing Solutions
+        </h2>
       </div>
 
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
         { filteredProducts.map((product, index) => {
           const imgSrc = importImage(product.image);
           return (
             <div
               key={ `${product.name}-${index}` }
-              className="flex flex-col items-center bg-white rounded-2xl border-2 border-gray-100 p-2 shadow-sm transition-shadow cursor-default group"
+              className="
+    group
+    relative
+    flex flex-col
+    bg-white
+    rounded-[16px]
+    border border-[#E8ECF2]
+    overflow-hidden
+    min-h-[160px]
+
+    transform-gpu
+    transition-all
+    duration-500
+    ease-[cubic-bezier(0.22,1,0.36,1)]
+
+    shadow-[0_4px_12px_rgba(0,0,0,0.05)]
+
+    hover:-translate-y-1
+    hover:border-transparent
+    hover:shadow-[0_15px_35px_rgba(0,0,0,0.2)]
+
+    cursor-pointer
+  "
             >
-              <div className="w-full aspect-square bg-gray-50 rounded-xl mb-3 flex items-center justify-center border border-gray-100 overflow-hidden">
+              {/* Hover Glow */ }
+              <div
+                className="
+      absolute inset-0
+      opacity-0
+      transition-opacity
+      duration-500
+      pointer-events-none
+      bg-gradient-to-b
+      from-white/0
+      via-white/0
+      to-[#0D6EFD08]
+      group-hover:opacity-100
+    "
+              />
+
+              {/* Image Section */ }
+              <div
+                className="
+      relative
+      m-2.5
+      mb-1.5
+      overflow-hidden
+      rounded-[12px]
+      bg-[#F7F8FA]
+      aspect-[4/3]
+    "
+              >
                 { imgSrc ? (
                   <img
                     src={ imgSrc }
                     alt={ product.name }
-                    className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                    className="
+          w-full
+          h-full
+          object-cover
+
+          transform-gpu
+          transition-transform
+          duration-700
+          ease-[cubic-bezier(0.22,1,0.36,1)]
+
+          group-hover:scale-105
+        "
                   />
                 ) : (
-                  <div className="text-gray-300 flex flex-col items-center justify-center">
-                    <div className="w-12 h-12 rounded-full border-2 border-dashed border-gray-200" />
+                  <div
+                    className="
+          w-full
+          h-full
+          flex
+          items-center
+          justify-center
+          text-gray-300
+
+          transition-transform
+          duration-700
+          group-hover:scale-110
+        "
+                  >
+                    <div className="relative">
+                      <Printer className="w-10 h-10 opacity-20" />
+                      <FileText className="absolute -bottom-1 -right-1 w-5 h-5 opacity-40 bg-[#F7F8FA] rounded-sm p-0.5" />
+                    </div>
                   </div>
                 ) }
               </div>
-              <p className="text-xs font-bold text-center leading-tight !text-brand-text">
-                { product.name }
-              </p>
+
+              {/* Content */ }
+              <div className="px-3 pb-3.5 flex-1 flex items-center justify-center">
+                <p
+                  className="
+        text-center
+        text-[13px]
+        font-semibold
+        leading-[18px]
+        font-open-sans
+
+        text-[#1F2937]
+
+        transition-all
+        duration-300
+
+        group-hover:text-brand-blue
+      "
+                >
+                  { product.name }
+                </p>
+              </div>
             </div>
           );
         }) }

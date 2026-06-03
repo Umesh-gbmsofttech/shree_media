@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { ChevronRight } from 'lucide-react';
 
 // Import category images
 import allImg from '../../assets/categories/all-printing.jpeg';
@@ -32,29 +34,32 @@ const CategoryGrid = ({ activeCategory, setActiveCategory }) => {
 
   return (
     <div className="mb-12 overflow-hidden">
-      <div className="flex justify-between items-center mb-6 px-1">
-        <h2 className="text-xl font-bold uppercase tracking-wide !text-brand-text">Printing Categories</h2>
-        <button className="text-sm font-bold !text-brand-blue hover:underline">View All &rarr;</button>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-[20px] font-bold !font-open-sans leading-[28px] !text-section-heading flex items-center gap-2">
+          <ChevronRight className="text-brand-blue w-6 h-6 stroke-[3px]" />
+          Printing Categories
+        </h2>
+        <Link to="/categories" className="text-sm font-bold !text-brand-blue hover:underline">View All &rarr;</Link>
       </div>
 
-      {/* Horizontal row with padding to prevent cutting */ }
-      <div className="flex flex-nowrap overflow-x-auto pb-6 gap-4 md:gap-8 scrollbar-hide snap-x snap-mandatory px-6 md:px-12 scroll-smooth">
-        { categories.map((cat) => (
+      {/* Grid layout with 6 columns on large screens, limited to first 6 items */ }
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6">
+        { categories.slice(0, 6).map((cat) => (
           <button
             key={ cat.name }
             onClick={ () => handleCategoryClick(cat.name) }
-            className={ `flex-shrink-0 flex flex-col items-center group transition-all w-28 md:w-28 snap-center ${activeCategory === cat.name ? 'scale-105' : 'opacity-100 hover:opacity-95'
+            className={ `flex flex-col items-center group transition-all duration-500 ease-out mx-auto ${activeCategory === cat.name ? '' : 'opacity-100'
               }` }
           >
-            <div className={ `w-full aspect-square rounded-2xl border-2 mb-3 overflow-hidden flex items-center justify-center bg-white transition-all shadow-sm ${activeCategory === cat.name ? 'border-brand-blue shadow-md' : 'border-gray-100 group-hover:border-brand-blue/30'
+            <div className={ `w-28 h-28 rounded-2xl mb-3 overflow-hidden flex items-center justify-center bg-white transition-all duration-500 ease-out shadow-md ${activeCategory === cat.name ? 'shadow-xl ring-2 ring-brand-blue/20' : 'group-hover:shadow-xl'
               }` }>
               <img
                 src={ cat.img }
                 alt={ cat.name }
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
               />
             </div>
-            <p className={ `text-[10px] md:text-xs font-bold text-center leading-tight transition-colors uppercase tracking-wider ${activeCategory === cat.name ? '!text-brand-blue' : '!text-brand-text group-hover:!text-brand-blue'
+            <p className={ `w-28 text-[14px] font-bold text-center leading-[20px] transition-colors duration-500 !font-open-sans ${activeCategory === cat.name ? '!text-brand-blue' : 'text-[#1F2937] group-hover:!text-brand-blue'
               }` }>
               { cat.name }
             </p>

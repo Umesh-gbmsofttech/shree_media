@@ -7,7 +7,7 @@ const ProcessSection = ({ steps, title, subtitle }) => {
 
   return (
     <section className="py-24 bg-gray-50 overflow-hidden">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 md:px-12">
         <div className="mb-16">
           <span className="text-brand-blue font-black tracking-widest uppercase text-sm mb-4 block">
             Execution Pipeline

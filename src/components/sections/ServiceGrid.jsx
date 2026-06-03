@@ -8,7 +8,7 @@ const ServiceGrid = ({ services, sectionTitle, sectionSubtitle }) => {
 
   return (
     <section className="py-24 bg-white">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 md:px-12">
         <div className="mb-16 text-center">
           <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-4">
             {sectionTitle || 'Our Core Services'}

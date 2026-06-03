@@ -10,7 +10,6 @@
     "Indoor printing"
   ],
   "products": [
-    { "name": "Exhibition Stall Printing", "category": "Industrial Printing" },
     { "name": "Brochure", "category": "All Printing", "image": "banner1.jpg" },
     { "name": "Flyer", "category": "All Printing", "image": "flyer1.jpg" },
     { "name": "Standy", "category": "Outdoor printing", "image": "standy.avif" },
@@ -97,6 +96,7 @@
     { "name": "Standup Pouch", "category": "Packaging" },
     { "name": "Standup Pouch with Window", "category": "Packaging" },
     { "name": "Three Side Seal Pouch", "category": "Packaging" },
-    { "name": "Two Side Seal Pouch", "category": "Packaging" }
+    { "name": "Two Side Seal Pouch", "category": "Packaging" },
+    { "name": "Exhibition Stall Printing", "category": "Industrial Printing" }
   ]
 }

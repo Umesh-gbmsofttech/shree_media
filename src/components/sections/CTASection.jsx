@@ -18,7 +18,7 @@ const CTASection = ({ title, description, buttonText, targetPath, whatsappMessag
 
   return (
     <section className="py-24 bg-white">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 md:px-12">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
